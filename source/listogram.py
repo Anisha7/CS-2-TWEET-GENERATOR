@@ -16,10 +16,32 @@ class Listogram(list):
         if word_list is not None:
             for word in word_list:
                 self.add_count(word)
+                    
+    def word_order(a,b):
+        order = [a,b]
+        order.sort()
+
+        if (order[0] == a):
+            return True
+        return False
 
     def add_count(self, word, count=1):
         """Increase frequency count of given word by given count amount."""
-        # TODO: Increase word frequency by count
+        # Increase word frequency by count
+        index = find(word, self)
+        # increment if found
+        if index != -1:
+            self[index][1] += count
+        # add as a new item if not found
+        else:
+            found = False
+            for i in range(len(self)):
+                if (self.word_order(word, self[i][0])):
+                    (self).insert(i, [word, count])
+                    found = True
+            if (found == False):
+                self.append([word, count])
+
 
     def frequency(self, word):
         """Return frequency count of given word, or 0 if word is not found."""

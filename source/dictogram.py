@@ -1,8 +1,7 @@
 #!python
 
 from __future__ import division, print_function  # Python 2 and 3 compatibility
-
-
+from collections import Counter
 class Dictogram(dict):
     """Dictogram is a histogram implemented as a subclass of the dict type."""
 
@@ -12,19 +11,37 @@ class Dictogram(dict):
         # Add properties to track useful word counts for this histogram
         self.types = 0  # Count of distinct word types in this histogram
         self.tokens = 0  # Total count of all word tokens in this histogram
+        # self.d = Counter()
         # Count words in given list, if any
         if word_list is not None:
             for word in word_list:
                 self.add_count(word)
 
+    # increments count for word in histogram
     def add_count(self, word, count=1):
         """Increase frequency count of given word by given count amount."""
         # TODO: Increase word frequency by count
-
+        if (self.get(word) != None):
+            self[word] += count
+        else:
+            self[word] = count
+        self.tokens += count
+        self.types = len(self.keys())
+        
+    # returns how many times a word occured
     def frequency(self, word):
         """Return frequency count of given word, or 0 if word is not found."""
         # TODO: Retrieve word frequency count
+        if (self.__contains__(word)):
+            return self[word]
+        return 0
 
+    # replace inbuilt contains function
+    # checks if a word is in the histogram/dictionary
+    def __contains__(self, word):
+        if self.get(word) != None:
+            return True
+        return False
 
 def print_histogram(word_list):
     print('word list: {}'.format(word_list))
